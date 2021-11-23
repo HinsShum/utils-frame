@@ -38,7 +38,7 @@ extern char * utils_strtok(char *s, const char *delim);
 extern char * utils_strsep(char **stringp, const char *delim);
 extern int utils_strtolower(char *s,int len);
 extern int utils_strtoupper(char *s,int len);
-extern char *strnstr(const char *str1,const char *str2,int len);
+extern char *utils_strnstr(const char *str1,const char *str2,int len);
 extern int  utils_bitcmp(const char *str1,const char *str2,int len);
 extern char *utils_find_split_next(char *str,char split);
 extern int utils_nsplit(char *str,char split,int n,char **pout);

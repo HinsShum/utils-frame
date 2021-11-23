@@ -128,7 +128,7 @@ char* utils_strsep(char **stringp, const char *delim) {
     return s;
 }
 
-char* strnstr(const char *str1, const char *str2, int len) {
+char* utils_strnstr(const char *str1, const char *str2, int len) {
     char *s = NULL;
     while (len--) {
         if (!strcmp(s, str1)) {
