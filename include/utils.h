@@ -1,7 +1,7 @@
 /**
- * @file APP/utils/include/utils.h
+ * @file utils\include\utils.h
  *
- * Copyright (C) 2021
+ * Copyright (C) 2022
  *
  * utils.h is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,11 @@
  */
 #ifndef __UTILS_H
 #define __UTILS_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /*---------- includes ----------*/
 #include <stdint.h>
@@ -56,4 +61,7 @@ extern uint16_t utils_ntohs(uint16_t ns);
 extern uint32_t utils_htonl(uint32_t hl);
 extern uint16_t utils_htons(uint16_t hs);
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* __UTILS_H */

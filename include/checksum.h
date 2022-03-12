@@ -1,7 +1,7 @@
 /**
- * @file APP/utils/include/checksum.h
+ * @file utils\include\checksum.h
  *
- * Copyright (C) 2021
+ * Copyright (C) 2022
  *
  * checksum.h is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,11 @@
  */
 #ifndef __CHECKSUM_H
 #define __CHECKSUM_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /*---------- includes ----------*/
 #include <stdint.h>
@@ -45,4 +50,7 @@ extern uint8_t checksum_crc8_maxim(void *data, uint16_t len);
 extern uint16_t checksum_crc16_fm13dt160(void *data, uint16_t len);
 extern uint16_t checksum_crc16_ccitt(void *data, uint16_t len);
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* __CHECKSUM_H */
