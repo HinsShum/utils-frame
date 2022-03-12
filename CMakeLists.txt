@@ -6,13 +6,11 @@
 #        which is the required name of the file CMake looks for:
 cmake_minimum_required(VERSION 3.1)
 
-if(DEFINED BOARD_NAME)
-    file(GLOB_RECURSE FILES "*.c")
+file(GLOB_RECURSE FILES "*.c")
 
-    # set filter out files
-    set(FILES_OUT "")
-    filter_out(FILES_OUT FILES FILES)
+# set filter out files
+set(FILES_OUT "")
+filter_out(FILES_OUT FILES FILES)
 
-    set(C_SOURCE_FILES ${C_SOURCE_FILES} ${FILES} PARENT_SCOPE)
-    set(G_SOURCE_INCLUDE_DIRS ${G_SOURCE_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/include" PARENT_SCOPE)
-endif()
+set(C_SOURCE_FILES ${C_SOURCE_FILES} ${FILES} PARENT_SCOPE)
+set(G_SOURCE_INCLUDE_DIRS ${G_SOURCE_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/include" PARENT_SCOPE)
