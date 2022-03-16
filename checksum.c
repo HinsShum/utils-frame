@@ -388,3 +388,32 @@ uint16_t checksum_crc16_ccitt(void *data, uint16_t len)
 
     return crc;
 }
+
+/**
+ * CRC8:
+ *  width: 8
+ *  poly: 0x31 (X8+X5+X4+1)
+ *  init: 0x00
+ *  refin: false
+ *  refout: false
+ *  xorout: 0x00
+ */
+uint8_t checksum_crc8_moorgen(void *data, uint16_t len)
+{
+    uint8_t poly = 0x31, crc = 0x00;
+    uint8_t *byte = (uint8_t *)data;
+
+    while(len--) {
+        crc ^= *byte++;
+        for(uint8_t i = 0; i < 8; ++i) {
+            if(crc & 0x80) {
+                crc <<= 1;
+                crc ^= poly;
+            } else {
+                crc <<= 1;
+            }
+        }
+    }
+
+    return crc;
+}
