@@ -207,41 +207,91 @@ uint16_t checksum_crc16_xmodem(void *data, uint16_t len)
 }
 #endif
 
-uint8_t checksum_xor(void *data, uint16_t len)
+/**
+ * CRC16-MAXIM:
+ *  width: 16
+ *  poly: 0x8005 (X16+X15+X2+1)
+ *  init: 0x0000
+ *  refin: true
+ *  refout: true
+ *  xorout: 0xFFFF
+ */
+uint16_t checksum_crc16_maxim(void *data, uint16_t len)
 {
-    uint8_t xor = 0;
-    uint8_t *pdata = (uint8_t *)data;
+    uint16_t crc = 0x0000, poly = 0xA001;
+    uint8_t *byte = (uint8_t *)data;
 
     while(len--) {
-        xor ^= *pdata++;
+        crc ^= *byte++;
+        for(uint8_t i = 0; i < 8; ++i) {
+            if(crc & 0x0001) {
+                crc >>= 1;
+                crc ^= poly;
+            } else {
+                crc >>= 1;
+            }
+        }
     }
 
-    return xor;
+    return (crc ^ 0xFFFF);
 }
 
-uint8_t checksum_revert_sum8(void *data, uint16_t len)
+/**
+ * CRC16-IBM:
+ *  width: 16
+ *  poly: 0x8005 (X16+X15+X2+1)
+ *  init: 0x0000
+ *  refin: true
+ *  refout: true
+ *  xorout: 0x0000
+ */
+uint16_t checksum_crc16_ibm(void *data, uint16_t len)
 {
-    uint8_t sum = 0;
-    uint8_t *pdata = (uint8_t *)data;
+    uint16_t crc = 0x0000, poly = 0xA001;
+    uint8_t *byte = (uint8_t *)data;
 
     while(len--) {
-        sum += ~(*pdata);
-        pdata++;
+        crc ^= *byte++;
+        for(uint8_t i = 0; i < 8; ++i) {
+            if(crc & 0x0001) {
+                crc >>= 1;
+                crc ^= poly;
+            } else {
+                crc >>= 1;
+            }
+        }
     }
 
-    return sum;
+    return crc;
 }
 
-uint16_t checksum_sum16(void *data, uint16_t len)
+/**
+ * CRC16-CCITT:
+ *  width: 16
+ *  poly: 0x1021 (X16+X12+X5+1)
+ *  init: 0x00
+ *  refin: true
+ *  refout: true
+ *  xorout: 0x00
+ */
+uint16_t checksum_crc16_ccitt(void *data, uint16_t len)
 {
-    uint16_t sum = 0;
-    uint8_t *pdata = (uint8_t *)data;
-    
+    uint16_t crc = 0x00, poly = 0x8408;
+    uint8_t *byte = (uint8_t *)data;
+
     while(len--) {
-        sum += *pdata++;
+        crc ^= *byte++;
+        for(uint8_t i = 0; i < 8; ++i) {
+            if(crc & 0x0001) {
+                crc >>= 1;
+                crc ^= poly;
+            } else {
+                crc >>= 1;
+            }
+        }
     }
 
-    return sum;
+    return crc;
 }
 
 /**
@@ -361,35 +411,6 @@ uint8_t checksum_crc8_maxim(void *data, uint16_t len)
 }
 
 /**
- * CRC16-CCITT:
- *  width: 16
- *  poly: 0x1021 (X16+X12+X5+1)
- *  init: 0x00
- *  refin: true
- *  refout: true
- *  xorout: 0x00
- */
-uint16_t checksum_crc16_ccitt(void *data, uint16_t len)
-{
-    uint16_t crc = 0x00, poly = 0x8408;
-    uint8_t *byte = (uint8_t *)data;
-
-    while(len--) {
-        crc ^= *byte++;
-        for(uint8_t i = 0; i < 8; ++i) {
-            if(crc & 0x0001) {
-                crc >>= 1;
-                crc ^= poly;
-            } else {
-                crc >>= 1;
-            }
-        }
-    }
-
-    return crc;
-}
-
-/**
  * CRC8:
  *  width: 8
  *  poly: 0x31 (X8+X5+X4+1)
@@ -418,31 +439,39 @@ uint8_t checksum_crc8_moorgen(void *data, uint16_t len)
     return crc;
 }
 
-/**
- * CRC16-MAXIM:
- *  width: 16
- *  poly: 0x8005 (X16+X15+X2+1)
- *  init: 0x0000
- *  refin: true
- *  refout: true
- *  xorout: 0xFFFF
- */
-uint16_t checksum_crc16_maxim(void *data, uint16_t len)
+uint8_t checksum_xor(void *data, uint16_t len)
 {
-    uint16_t crc = 0x0000, poly = 0xA001;
-    uint8_t *byte = (uint8_t *)data;
+    uint8_t xor = 0;
+    uint8_t *pdata = (uint8_t *)data;
 
     while(len--) {
-        crc ^= *byte++;
-        for(uint8_t i = 0; i < 8; ++i) {
-            if(crc & 0x0001) {
-                crc >>= 1;
-                crc ^= poly;
-            } else {
-                crc >>= 1;
-            }
-        }
+        xor ^= *pdata++;
     }
 
-    return (crc ^ 0xFFFF);
+    return xor;
+}
+
+uint8_t checksum_revert_sum8(void *data, uint16_t len)
+{
+    uint8_t sum = 0;
+    uint8_t *pdata = (uint8_t *)data;
+
+    while(len--) {
+        sum += ~(*pdata);
+        pdata++;
+    }
+
+    return sum;
+}
+
+uint16_t checksum_sum16(void *data, uint16_t len)
+{
+    uint16_t sum = 0;
+    uint8_t *pdata = (uint8_t *)data;
+    
+    while(len--) {
+        sum += *pdata++;
+    }
+
+    return sum;
 }

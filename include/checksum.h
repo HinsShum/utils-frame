@@ -37,20 +37,25 @@ extern "C"
 /*---------- type define ----------*/
 /*---------- variable prototype ----------*/
 /*---------- function prototype ----------*/
+/* crc16 */
 extern uint16_t checksum_crc16_modbus(void *data, uint16_t len);
 extern uint16_t checksum_crc16_xmodem(void *data, uint16_t len);
-extern uint8_t checksum_xor(void *data, uint16_t len);
-extern uint8_t checksum_revert_sum8(void *data, uint16_t len);
-extern uint16_t checksum_sum16(void *data, uint16_t len);
+extern uint16_t checksum_crc16_maxim(void *data, uint16_t len);
+extern uint16_t checksum_crc16_ibm(void *data, uint16_t len);
+extern uint16_t checksum_crc16_ccitt(void *data, uint16_t len);
+/* crc8 */
 extern uint8_t checksum_crc8(void *data, uint16_t len);
 extern uint8_t checksum_crc8_rohc(void *data, uint16_t len);
 extern uint8_t checksum_crc8_rohc(void *data, uint16_t len);
 extern uint8_t checksum_crc8_itu(void *data, uint16_t len);
 extern uint8_t checksum_crc8_maxim(void *data, uint16_t len);
-extern uint16_t checksum_crc16_fm13dt160(void *data, uint16_t len);
-extern uint16_t checksum_crc16_ccitt(void *data, uint16_t len);
 extern uint8_t checksum_crc8_moorgen(void *data, uint16_t len);
-extern uint16_t checksum_crc16_maxim(void *data, uint16_t len);
+/* other */
+extern uint8_t checksum_xor(void *data, uint16_t len);
+extern uint8_t checksum_revert_sum8(void *data, uint16_t len);
+extern uint16_t checksum_sum16(void *data, uint16_t len);
+
+
 
 #ifdef __cplusplus
 }
