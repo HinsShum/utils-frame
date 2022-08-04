@@ -6,11 +6,10 @@
 #        which is the required name of the file CMake looks for:
 cmake_minimum_required(VERSION 3.1)
 
-file(GLOB_RECURSE FILES "*.c")
+set(TARGET_NAME "utils")
+set(G_LIBS ${G_LIBS} ${TARGET_NAME} PARENT_SCOPE)
+set(TARGET_INC_VPATH ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+file(GLOB_RECURSE TARGET_C_FILES "*.c")
 
-# set filter out files
-set(FILES_OUT "")
-filter_out(FILES_OUT FILES FILES)
-
-set(C_SOURCE_FILES ${C_SOURCE_FILES} ${FILES} PARENT_SCOPE)
-set(G_SOURCE_INCLUDE_DIRS ${G_SOURCE_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/include" PARENT_SCOPE)
+add_library(${TARGET_NAME} STATIC ${TARGET_C_FILES})
+target_include_directories(${TARGET_NAME} PUBLIC ${TARGET_INC_VPATH})
